@@ -9,6 +9,7 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 from sklearn.cluster import DBSCAN
+import requests
 # Définition des groupes de colonnes
 col_t0_vib=['target','index','V1_vib_down',		'V2_vib_down',		'V3_vib_down',		'V4_vib_down',		'V5_vib_down',		'V6_vib_down',		'V7_vib_down',		'V8_vib_down',		'V9_vib_down',		'V10_vib_down',		'V11_vib_down',		'V12_vib_down',		'V13_vib_down',		'V14_vib_down',		'V15_vib_down',		'V16_vib_down',		'V17_vib_down',		'V18_vib_down',		'V19_vib_down',		'V20_vib_down',		'V21_vib_down',		'V22_vib_down',		'V23_vib_down',		'V24_vib_down',		'V25_vib_down',		'V26_vib_down',		'V27_vib_down',		'V28_vib_down',		'V29_vib_down',		'V30_vib_down',		'V31_vib_down',		'V32_vib_down',		'V33_vib_down',		'V34_vib_down',		'V35_vib_down',		'V36_vib_down',		'V37_vib_down',		'V38_vib_down',		'V39_vib_down',		'V40_vib_down',		'V41_vib_down',		'V42_vib_down',		'V43_vib_down',		'V44_vib_down',		'V45_vib_down',		'V46_vib_down',		'V47_vib_down',		'V48_vib_down',		'V49_vib_down',		'V50_vib_down',		'V51_vib_down',		'V52_vib_down',		'V53_vib_down',		'V54_vib_down',		'V55_vib_down',		'V56_vib_down',		'V57_vib_down',		'V58_vib_down',		'V59_vib_down',		'V60_vib_down',		'V61_vib_down',		'V62_vib_down',		'V63_vib_down',		'V64_vib_down',		'V65_vib_down',		'V66_vib_down',		'V67_vib_down',		'V68_vib_down',		'V69_vib_down',		'V70_vib_down',		'V71_vib_down',		'V72_vib_down',		'V73_vib_down',		'V74_vib_down',		'V75_vib_down',		'G1_vib_down',		'G2_vib_down',		'G3_vib_down',		'G4_vib_down',		'G5_vib_down',		'G6_vib_down',		'G7_vib_down',		'G8_vib_down',		'G9_vib_down',		'G10_vib_down',		'G11_vib_down',		'G12_vib_down',		'G13_vib_down',		'G14_vib_down',		'G15_vib_down',		'G16_vib_down',		'G17_vib_down',		'G18_vib_down',		'G19_vib_down',		'G20_vib_down',		'G21_vib_down',		'G22_vib_down',		'G23_vib_down',		'G24_vib_down',		'G25_vib_down',		'G26_vib_down',		'G27_vib_down','G28_vib_down','G29_vib_down','G30_vib_down','G31_vib_down','G32_vib_down','G33_vib_down']
 col_t0_ac=['target','index','V1_vib_up',		'V2_vib_up',		'V3_vib_up',		'V4_vib_up',		'V5_vib_up',		'V6_vib_up',		'V7_vib_up',		'V8_vib_up',		'V9_vib_up',		'V10_vib_up',		'V11_vib_up',		'V12_vib_up',		'V13_vib_up',		'V14_vib_up',		'V15_vib_up',		'V16_vib_up',		'V17_vib_up',		'V18_vib_up',		'V19_vib_up',		'V20_vib_up',		'V21_vib_up',		'V22_vib_up',		'V23_vib_up',		'V24_vib_up',		'V25_vib_up',		'V26_vib_up',		'V27_vib_up',		'V28_vib_up',		'V29_vib_up',		'V30_vib_up',		'V31_vib_up',		'V32_vib_up',		'V33_vib_up',		'V34_vib_up',		'V35_vib_up',		'V36_vib_up',		'V37_vib_up',		'V38_vib_up',		'V39_vib_up',		'V40_vib_up',		'V41_vib_up',		'V42_vib_up',		'V43_vib_up',		'V44_vib_up',		'V45_vib_up',		'V46_vib_up',		'V47_vib_up',		'V48_vib_up',		'V49_vib_up',		'V50_vib_up',		'V51_vib_up',		'V52_vib_up',		'V53_vib_up',		'V54_vib_up',		'V55_vib_up',		'V56_vib_up',		'V57_vib_up',		'V58_vib_up',		'V59_vib_up',		'V60_vib_up',		'V61_vib_up',		'V62_vib_up',		'V63_vib_up',		'V64_vib_up',		'V65_vib_up',		'V66_vib_up',		'V67_vib_up',		'V68_vib_up',		'V69_vib_up',		'V70_vib_up',		'V71_vib_up',		'V72_vib_up',		'V73_vib_up',		'V74_vib_up',		'V75_vib_up',		'G1_vib_up',		'G2_vib_up',		'G3_vib_up',		'G4_vib_up',		'G5_vib_up',		'G6_vib_up',		'G7_vib_up',		'G8_vib_up',		'G9_vib_up',		'G10_vib_up',		'G11_vib_up',		'G12_vib_up',		'G13_vib_up',		'G14_vib_up',		'G15_vib_up',		'G16_vib_up',		'G17_vib_up',		'G18_vib_up',		'G19_vib_up',		'G20_vib_up',		'G21_vib_up',		'G22_vib_up',		'G23_vib_up',		'G24_vib_up',		'G25_vib_up',		'G26_vib_up',		'G27_vib_up','G28_vib_up','G29_vib_up','G30_vib_up','G31_vib_up','G32_vib_up','G33_vib_up']
@@ -23,12 +24,12 @@ group_columns = {
     "T1 - Acoutic (Down)": col_t1_ac,
 }
 # Set the page configuration
-st.set_page_config(page_title="Model", layout="wide", page_icon="📊", initial_sidebar_state='expanded')
+st.set_page_config(page_title="Testeur d'API", layout="wide", page_icon="📊", initial_sidebar_state='expanded')
 
 # Title and Introduction
-st.title("🎏 Model - Web App")
+st.title("✨ Model - Web App")
 st.markdown("""
-This app allows you to upload your data, visualize reduc dim at target and index columns.
+This app allows you to upload your data, test model production.
 """)
 # Gestion du fichier CSV via session_state
 if "data" not in st.session_state:
@@ -56,10 +57,9 @@ with st.sidebar:
             selected_columns = [col for group in selected_groups for col in group_columns[group] if col in df.columns]
             df = df[selected_columns]
             st.success("Données filtrées")
-
 if st.session_state.data is not None:
     
-    options = ["VisuData", "UMAP + MODEL", "ACP + MODEL"]
+    options = ["VisuData", "MODEL"]
     selection = st.segmented_control(
         "Directions", options, selection_mode="single"
     )
@@ -75,76 +75,44 @@ if st.session_state.data is not None:
             except Exception:
                 df = pd.get_dummies(df, columns=[col], drop_first=True)
     # This scales each column to have mean=0 and standard deviation=1
-    SS=StandardScaler()
-    # Apply scaling
-    X=pd.DataFrame(SS.fit_transform(df), columns=df.columns)
     if selection == "VisuData":
         # Data Preview Section
         st.subheader("Data Preview")
-        preview_rows = st.slider("How many rows to display?", 5, 100, 20)
+        preview_rows = st.slider("How many rows to display?", 1, 50, 1)
         st.dataframe(df.head(preview_rows))
-    if selection == "UMAP + MODEL": 
-        n_components = st.slider("UMAP - n_components ?", 1, 50, 2)
-        n_neighbors = st.slider("UMAP - n_neighbors ?", 1, 50, 4)
-        min_dist= st.slider("UMAP - min_dist / 10 ?", 0, 9, 1)/10
-        metric=st.selectbox(f"UMAP - metric ? n_components {n_components}, n_neighbors={n_neighbors}, min_dist={min_dist}", ["euclidean","manhattan","chebyshev","minkowski","canberra","braycurtis","haversine","mahalanobis","wminkowski","seuclidean","cosine","correlation","hamming","jaccard","dice","russellrao","kulsinski","rogerstanimoto","sokalmichener","sokalsneath","yule"])
-        eps = st.slider("DBSCAN - eps / 100 ?", 1, 99, 42)/100
-        min_samples = st.slider("DBSCAN - min_samples ?", 1, 999, 240)
-        with st.spinner('Wait for load...'):
-            umap_model_2d = umap.UMAP(n_components=n_components,n_neighbors=n_neighbors,min_dist=min_dist,metric=metric, random_state=42)
-            X_reduced_2d=umap_model_2d.fit_transform(X)
-            db = DBSCAN(eps=eps, min_samples=min_samples).fit(X_reduced_2d)#pour la 2d eps=0.42, min_samples=240 10d
-            y_pred = db.labels_
+    if selection == "MODEL":
+        # 2. Saisie de l'adresse IP de l'API
+        st.subheader("Entrez l'adresse IP ou l'URL de l'API")
+        api_url = st.text_input("Adresse IP ou URL de l'API", placeholder="http://127.0.0.1:5000/prediction")
+        preview_rows = st.slider("How many rows to display?", 1, 50, 1)
+        if api_url:
+            # 3. Bouton pour tester l'API
+            st.header("Envoyer les données à l'API")
+            if st.button("Tester l'API"):
+                responses = []
+                with st.spinner("Envoi des requêtes..."):
+                    for i, row in df[:preview_rows].iterrows():
+                        try:
+                            # Conversion des lignes de DataFrame en JSON
+                            json_data = row.to_dict()
 
-         # Number of clusters in labels, ignoring noise if present.
-        st.write(f"Number of clusters = {len(set(y_pred)) - (1 if -1 in y_pred else 0)}")
-        st.write(f"Number of anomalies = {list(y_pred).count(-1)}")
-        dfig=pd.DataFrame({"x":X_reduced_2d[:, 0],"y": X_reduced_2d[:, 1],"prediction":y_pred})
-        fig = px.scatter(dfig,x='x',y='y',color="prediction",hover_data={"index": df.index,"target":df.target},width=1400,height=1000,
-                 template="plotly")
-        event = st.plotly_chart(fig, key="iris", on_select="rerun",theme=None)
-        # Download the HTML file
-        st.download_button(
-            label="Download as HTML",
-            data=fig.to_html(full_html=True, include_plotlyjs='cdn'),
-            file_name="fdata_UMAP_DBSCAN.html",
-            mime="text/html"
-        )
-        # Download the csv file
-        st.download_button(
-            label="Download as csv",
-            data=dfig.to_csv(),
-            file_name="data_UMAP_DBSCAN.csv",
-            mime="text/csv"
-        )
-    if selection == "ACP + MODEL": 
-        n_components = st.slider("n_components ?", 1, 50, 2)
-        eps = st.slider("DBSCAN - eps / 100 ?", 1, 99, 42)/100
-        min_samples = st.slider("DBSCAN - min_samples ?", 1, 999, 240)
-        with st.spinner('Wait for load...'):
-            pca = PCA(n_components=n_components)
-            X_reduced_2d=pca.fit_transform(X)
-            db = DBSCAN(eps=eps, min_samples=min_samples).fit(X_reduced_2d)#pour la 2d eps=0.42, min_samples=240 10d
-            y_pred = db.labels_
+                            # Envoi de la requête POST
+                            response = requests.post(api_url, json=json_data)
 
-         # Number of clusters in labels, ignoring noise if present.
-        st.write(f"Number of clusters = {len(set(y_pred)) - (1 if -1 in y_pred else 0)}")
-        st.write(f"Number of anomalies = {list(y_pred).count(-1)}")
-        dfig=pd.DataFrame({"x":X_reduced_2d[:, 0],"y": X_reduced_2d[:, 1],"prediction":y_pred})
-        fig = px.scatter(dfig,x='x',y='y',color="prediction",hover_data={"index": df.index,"target":df.target},width=1400,height=1000,
-                 template="plotly")
-        event = st.plotly_chart(fig, key="iris", on_select="rerun",theme=None)
-        # Download the HTML file
-        st.download_button(
-            label="Download as HTML",
-            data=fig.to_html(full_html=True, include_plotlyjs='cdn'),
-            file_name="fdata_ACP_DBSCAN.html",
-            mime="text/html"
-        )
-        # Download the csv file
-        st.download_button(
-            label="Download as csv",
-            data=dfig.to_csv(),
-            file_name="data_ACP_DBSCAN.csv",
-            mime="text/csv"
-        )
+                            # Ajout de la réponse à la liste des réponses
+                            responses.append({
+                                "Données envoyées": json_data,
+                                "Code de réponse": response.status_code,
+                                "Réponse": response.json() if response.status_code == 200 else response.text
+                            })
+                        except Exception as e:
+                            responses.append({
+                                "Données envoyées": json_data,
+                                "Code de réponse": "Erreur",
+                                "Réponse": str(e)
+                            })
+
+                # 4. Affichage des résultats
+                st.success("Toutes les requêtes ont été envoyées.")
+                st.write("Résultats des requêtes:")
+                st.json(responses)
