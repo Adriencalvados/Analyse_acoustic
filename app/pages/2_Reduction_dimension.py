@@ -8,6 +8,8 @@ import plotly.express as px
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
+from io import StringIO
+import plotly.graph_objects as go
 # Définition des groupes de colonnes
 col_t0_vib=['target','index','V1_vib_down',		'V2_vib_down',		'V3_vib_down',		'V4_vib_down',		'V5_vib_down',		'V6_vib_down',		'V7_vib_down',		'V8_vib_down',		'V9_vib_down',		'V10_vib_down',		'V11_vib_down',		'V12_vib_down',		'V13_vib_down',		'V14_vib_down',		'V15_vib_down',		'V16_vib_down',		'V17_vib_down',		'V18_vib_down',		'V19_vib_down',		'V20_vib_down',		'V21_vib_down',		'V22_vib_down',		'V23_vib_down',		'V24_vib_down',		'V25_vib_down',		'V26_vib_down',		'V27_vib_down',		'V28_vib_down',		'V29_vib_down',		'V30_vib_down',		'V31_vib_down',		'V32_vib_down',		'V33_vib_down',		'V34_vib_down',		'V35_vib_down',		'V36_vib_down',		'V37_vib_down',		'V38_vib_down',		'V39_vib_down',		'V40_vib_down',		'V41_vib_down',		'V42_vib_down',		'V43_vib_down',		'V44_vib_down',		'V45_vib_down',		'V46_vib_down',		'V47_vib_down',		'V48_vib_down',		'V49_vib_down',		'V50_vib_down',		'V51_vib_down',		'V52_vib_down',		'V53_vib_down',		'V54_vib_down',		'V55_vib_down',		'V56_vib_down',		'V57_vib_down',		'V58_vib_down',		'V59_vib_down',		'V60_vib_down',		'V61_vib_down',		'V62_vib_down',		'V63_vib_down',		'V64_vib_down',		'V65_vib_down',		'V66_vib_down',		'V67_vib_down',		'V68_vib_down',		'V69_vib_down',		'V70_vib_down',		'V71_vib_down',		'V72_vib_down',		'V73_vib_down',		'V74_vib_down',		'V75_vib_down',		'G1_vib_down',		'G2_vib_down',		'G3_vib_down',		'G4_vib_down',		'G5_vib_down',		'G6_vib_down',		'G7_vib_down',		'G8_vib_down',		'G9_vib_down',		'G10_vib_down',		'G11_vib_down',		'G12_vib_down',		'G13_vib_down',		'G14_vib_down',		'G15_vib_down',		'G16_vib_down',		'G17_vib_down',		'G18_vib_down',		'G19_vib_down',		'G20_vib_down',		'G21_vib_down',		'G22_vib_down',		'G23_vib_down',		'G24_vib_down',		'G25_vib_down',		'G26_vib_down',		'G27_vib_down','G28_vib_down','G29_vib_down','G30_vib_down','G31_vib_down','G32_vib_down','G33_vib_down']
 col_t0_ac=['target','index','V1_vib_up',		'V2_vib_up',		'V3_vib_up',		'V4_vib_up',		'V5_vib_up',		'V6_vib_up',		'V7_vib_up',		'V8_vib_up',		'V9_vib_up',		'V10_vib_up',		'V11_vib_up',		'V12_vib_up',		'V13_vib_up',		'V14_vib_up',		'V15_vib_up',		'V16_vib_up',		'V17_vib_up',		'V18_vib_up',		'V19_vib_up',		'V20_vib_up',		'V21_vib_up',		'V22_vib_up',		'V23_vib_up',		'V24_vib_up',		'V25_vib_up',		'V26_vib_up',		'V27_vib_up',		'V28_vib_up',		'V29_vib_up',		'V30_vib_up',		'V31_vib_up',		'V32_vib_up',		'V33_vib_up',		'V34_vib_up',		'V35_vib_up',		'V36_vib_up',		'V37_vib_up',		'V38_vib_up',		'V39_vib_up',		'V40_vib_up',		'V41_vib_up',		'V42_vib_up',		'V43_vib_up',		'V44_vib_up',		'V45_vib_up',		'V46_vib_up',		'V47_vib_up',		'V48_vib_up',		'V49_vib_up',		'V50_vib_up',		'V51_vib_up',		'V52_vib_up',		'V53_vib_up',		'V54_vib_up',		'V55_vib_up',		'V56_vib_up',		'V57_vib_up',		'V58_vib_up',		'V59_vib_up',		'V60_vib_up',		'V61_vib_up',		'V62_vib_up',		'V63_vib_up',		'V64_vib_up',		'V65_vib_up',		'V66_vib_up',		'V67_vib_up',		'V68_vib_up',		'V69_vib_up',		'V70_vib_up',		'V71_vib_up',		'V72_vib_up',		'V73_vib_up',		'V74_vib_up',		'V75_vib_up',		'G1_vib_up',		'G2_vib_up',		'G3_vib_up',		'G4_vib_up',		'G5_vib_up',		'G6_vib_up',		'G7_vib_up',		'G8_vib_up',		'G9_vib_up',		'G10_vib_up',		'G11_vib_up',		'G12_vib_up',		'G13_vib_up',		'G14_vib_up',		'G15_vib_up',		'G16_vib_up',		'G17_vib_up',		'G18_vib_up',		'G19_vib_up',		'G20_vib_up',		'G21_vib_up',		'G22_vib_up',		'G23_vib_up',		'G24_vib_up',		'G25_vib_up',		'G26_vib_up',		'G27_vib_up','G28_vib_up','G29_vib_up','G30_vib_up','G31_vib_up','G32_vib_up','G33_vib_up']
@@ -21,6 +23,47 @@ group_columns = {
     "T1 - Vibration (Up)": col_t1_vib,
     "T1 - Acoutic (Down)": col_t1_ac,
 }
+        # Fonction pour créer un cercle de corrélation avec Plotly
+def plot_correlation_circle_plotly(pca, components, features):
+    fig = go.Figure()
+
+    # Ajouter les flèches pour chaque variable
+    for i, (component1, component2) in enumerate(zip(components[0], components[1])):
+        fig.add_trace(go.Scatter(
+            x=[0, component1],
+            y=[0, component2],
+            mode='lines',
+            text=[None, features[i]],
+            textposition="top center",
+            name=features[i],
+            showlegend=False
+        ))
+
+    # Ajouter le cercle unitaire
+    circle_x = np.cos(np.linspace(0, 2 * np.pi, 100))
+    circle_y = np.sin(np.linspace(0, 2 * np.pi, 100))
+    fig.add_trace(go.Scatter(
+        x=circle_x,
+        y=circle_y,
+        mode='lines',
+        line=dict(color='blue', dash='dash'),
+        name='Cercle unitaire',showlegend=False
+    ))
+
+    # Mise en forme du graphique
+    fig.update_layout(
+        title='Cercle des corrélations (ACP)',
+        xaxis_title='Composante principale 1',
+        yaxis_title='Composante principale 2',
+        xaxis=dict(range=[-1.1, 1.1], zeroline=True),
+        yaxis=dict(range=[-1.1, 1.1], zeroline=True),
+        width=1400,
+        height=1400,
+        showlegend=False,
+        margin=dict(l=50, r=50, t=50, b=50)
+    )
+
+    return fig
 # Set the page configuration
 st.set_page_config(page_title="Réduction de dimension", layout="wide", page_icon="📊", initial_sidebar_state='expanded')
 
@@ -140,3 +183,36 @@ if st.session_state.data is not None:
             file_name="data_ACP.csv",
             mime="text/csv"
         )
+        # Application de l'ACP
+        pca = PCA(n_components=2)
+        components = pca.fit_transform(X)
+        pca_components = pca.components_
+        # Cercle de corrélation interactif avec Plotly
+        st.write("Cercle des corrélations :")
+        fig = plot_correlation_circle_plotly(pca, pca_components, X.columns)
+        st.plotly_chart(fig)
+
+        # Téléchargement du fichier HTML interactif
+        buffer = StringIO()
+        fig.write_html(buffer)
+        buffer.seek(0)
+        html_data = buffer.getvalue()
+
+        st.download_button(
+            label="Télécharger le cercle des corrélations (HTML)",
+            data=html_data,
+            file_name='cercle_correlation.html',
+            mime='text/html'
+        )
+
+        # Téléchargement du DataFrame modifié en CSV
+        csv = df.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="Télécharger le DataFrame filtré (CSV)",
+            data=csv,
+            file_name='data_filtre.csv',
+            mime='text/csv'
+        )
+        
+        
+        
